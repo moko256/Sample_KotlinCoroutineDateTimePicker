@@ -36,5 +36,8 @@ suspend fun Context.asyncTimePickerDialog(
         defaultHourOfDay,
         defaultMinute,
         is24HourView
-    ).show()
+    ).apply {
+        setOnCancelListener { deferred.cancel() }
+        show()
+    }
 }.await()

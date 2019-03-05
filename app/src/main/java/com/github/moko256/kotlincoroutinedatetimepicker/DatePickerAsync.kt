@@ -14,5 +14,6 @@ suspend fun DatePickerDialog.await(): PickerDate = CompletableDeferred<PickerDat
             PickerDate(year, month, dayOfMonth)
         )
     }
+    setOnCancelListener { deferred.cancel() }
     show()
 }.await()
