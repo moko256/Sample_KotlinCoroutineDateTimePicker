@@ -1,0 +1,48 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.github.moko256.kotlincoroutinedatetimepicker"
+        minSdkVersion 28
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
+        resConfigs 'en', 'ldltr'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            shrinkResources true
+            minifyEnabled true
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
+        }
+    }
+    packagingOptions {
+        exclude '/kotlin/**'
+        exclude '/kotlinx/**'
+        exclude '/META-INF/*.version'
+        exclude '/META-INF/**.kotlin_module'
+    }
+}
+
+dependencies {
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
+
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha02'
+    implementation 'androidx.core:core-ktx:1.1.0-alpha04'
+}
