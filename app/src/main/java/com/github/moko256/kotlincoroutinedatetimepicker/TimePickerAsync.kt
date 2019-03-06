@@ -2,8 +2,9 @@ package com.github.moko256.kotlincoroutinedatetimepicker
 
 import android.app.TimePickerDialog
 import android.content.Context
-import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.*
+import kotlin.coroutines.resume
 
 /**
  * Created by moko256 on 2019/03/05.
@@ -25,11 +26,11 @@ suspend fun Context.asyncTimePickerDialog(
     defaultHourOfDay: Int,
     defaultMinute: Int,
     is24HourView: Boolean
-): PickerTime = CompletableDeferred<PickerTime>().also { deferred ->
+): PickerTime = suspendCancellableCoroutine { continuation ->
     TimePickerDialog(
         this,
         { _, hourOfDay, minute ->
-            deferred.complete(
+            continuation.resume(
                 PickerTime(hourOfDay, minute)
             )
         },
@@ -37,7 +38,7 @@ suspend fun Context.asyncTimePickerDialog(
         defaultMinute,
         is24HourView
     ).apply {
-        setOnCancelListener { deferred.cancel() }
+        setOnCancelListener { continuation.cancel() }
         show()
     }
-}.await()
+}
